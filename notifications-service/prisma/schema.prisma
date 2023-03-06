@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Notification {
+  id          String    @id
+  // O recipiente funciona como uma chave estrangeira pra ligar este microsserviço de notificações com o microserviço de usuário.
+  // Isso faz com que, por mais que tenhamos dados duplicados, ainda assim eles tem uma relação.
+  // Chamamos isso de recipient porque como a entidade pode estar em vários serviços, não podemos chamar ela da mesma forma em todos eles.
+  recipientId String
+  content     String
+  category    String
+  readAt      DateTime?
+  canceledAt  DateTime?
+  createdAt   DateTime  @default(now())
+
+  // Como sempre vamos usar o recipient como forma de busca, podemos indexar pra gerar cache e termos um processo mais rápido
+  @@index([recipientId])
+}

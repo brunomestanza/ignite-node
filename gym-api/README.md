@@ -97,6 +97,12 @@ Entre no diretório do projeto
 
 Crie um arquivo .env e .env.test seguindo os arquivos de exemplo, como .env.example
 
+Configuração do docker
+
+```bash
+  docker compose up -d
+```
+
 Instale as dependências
 
 ```bash

@@ -53,8 +53,6 @@ describe('Search Gyms Use Case', () => {
       page: 2,
     })
 
-    console.log(gyms)
-
     expect(gyms).toHaveLength(2)
     expect(gyms).toEqual([
       expect.objectContaining({ name: 'Test Gym 21' }),

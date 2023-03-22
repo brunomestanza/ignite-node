@@ -1,4 +1,3 @@
-
 # Projeto para aprendizado de NestJS
 
 Uma api que utiliza de geolocalização, verificações com data para checkins em academias.
@@ -115,9 +114,39 @@ Inicie o servidor
   npm run dev
 ```
 
-Para rodar os testes
+Para rodar os testes unitários
 
 ```bash
   npm run test
+```
+
+Para rodar os testes unitários porém monitorando alterações
+
+```bash
+  npm run test:watch
+```
+
+Para rodar os testes e2e
+
+```bash
+  npm run test:e2e
+```
+
+Para rodar os testes e2e porém monitorando alterações (antes, é importante rodar o teste e2e pra que o pretest:e2e rode também)
+
+```bash
+  npm run test:e2e:watch
+```
+
+Para rodar todos os testes com cobertura de testes
+
+```bash
+  npm run test:coverage
+```
+
+Para rodar todos os testes com UI
+
+```bash
+  npm run test:ui
 ```
 

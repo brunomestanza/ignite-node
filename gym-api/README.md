@@ -20,64 +20,150 @@ Uma api que utiliza de geolocalização, verificações com data para checkins e
 - [X] O usuário não deve poder se cadastrar com um e-mail duplicado;
 - [X] O usuário não pode fazer 2 check-ins no mesmo dia;
 - [X] O usuário não pode fazer check-in se não estiver perto (100m) da academia;
-- [ ] O check-in só pode ser validado até 20 minutos após criado;
-- [ ] O check-in só pode ser validado sobre administradores;
-- [ ] A academia só pode ser cadastrada por administradores;
+- [X] O check-in só pode ser validado sobre administradores;
+- [X] A academia só pode ser cadastrada por administradores;
 
 ## RNFs (Requisitos não-funcionais)
 
 - [X] A senha do usuário precisa estar criptografada;
 - [X] Os dados da aplicação precisam estar persistidos em um banco PostgreSQL;
 - [X] Todas as listas de dados precisam estar paginadas com 20 itens por página;
-- [ ] O usuário deve ser identificado por um JWT (JSON Web Token);
+- [X] O usuário deve ser identificado por um JWT (JSON Web Token);
 
 ## Documentação da API
 
-#### Retorna todas as transações.
+#### Registra o usuário
 
 ```http
-  GET /transactions
+  POST /users
 ```
 
 | Parâmetro   | Tipo       | Descrição                           |
 | :---------- | :--------- | :---------------------------------- |
-| `sessionId` | `Cookie - String` | **Obrigatório**. Id da sessão. |
+| `name` | `Body - String` | **Obrigatório**. Nome do usuário. |
+| `email` | `Body - String` | **Obrigatório**. Email do usuário. |
+| `password` | `Body - String` | **Obrigatório**. Senha do usuário. Mínimo 6 caracteres. |
 
-#### Retorna uma transação em específico.
+#### Autentica o usuário
 
 ```http
-  GET /transactions/:id
+  POST /sessions
 ```
 
 | Parâmetro   | Tipo       | Descrição                           |
 | :---------- | :--------- | :---------------------------------- |
-| `id` | `Query Param - String` | **Obrigatório**. Id da transação. |
-| `sessionId` | `Cookie - String` | **Obrigatório**. Id da sessão. |
+| `email` | `Body - String` | **Obrigatório**. Email do usuário. |
+| `password` | `Body - String` | **Obrigatório**. Senha do usuário. |
 
-#### Retorna o resumo das transações, após os gastos e lucros.
+#### Realiza refresh do access token
 
 ```http
-  GET /transactions/summary
+  PATCH /token/refresh
 ```
 
 | Parâmetro   | Tipo       | Descrição                           |
 | :---------- | :--------- | :---------------------------------- |
-| `sessionId` | `Cookie - String` | **Obrigatório**. Id da sessão. |
+| `refreshToken` | `Cookie - String` | **Obrigatório**. Refresh token do usuário. |
 
-#### Cria uma transação.
+#### Todas as rotas abaixo precisam que o usuário autentique
+
+#### Retorna o perfil do usuário
+
 ```http
-  POST /notifications
+  GET /me
 ```
 
 | Parâmetro   | Tipo       | Descrição                           |
 | :---------- | :--------- | :---------------------------------- |
-| `title` | `Body - String` | **Obrigatório**. Título da transação. |
-| `amount` | `Body - Number` | **Obrigatório**. Valor da transação. |
-| `type` | `Enum - 'credit', 'debit'` | **Obrigatório**. Tipo da transação. |
+| `accessToken` | `Cookie - String` | **Obrigatório**. Access token do usuário. |
+
+#### Retorna a lista de academias buscando por nome
+
+```http
+  GET /gyms/search
+```
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `accessToken` | `Cookie - String` | **Obrigatório**. Access token do usuário. |
+| `query` | `Query - String` | **Obrigatório**. Nome da academia. |
+| `page` | `Query - Number` | Número da página atual. |
+
+#### Retorna a lista de academias próximas
+
+```http
+  GET /gyms/nearby
+```
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `accessToken` | `Cookie - String` | **Obrigatório**. Access token do usuário. |
+| `latitude` | `Query - Number` | **Obrigatório**. Latitude do usuário. |
+| `longitude` | `Query - Number` | **Obrigatório**. Longitude do usuário. |
+
+#### Cria uma nova academia - Usado apenas por admins
+
+```http
+  POST /gyms
+```
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `accessToken` | `Cookie - String` | **Obrigatório**. Access token do usuário. |
+| `name` | `Body - String` | **Obrigatório**. Nome da academia. |
+| `description` | `Body - String` | Descricão da academia. |
+| `phone` | `Body - String` | Telefone da academia. |
+| `latitude` | `Body - Number` | **Obrigatório**. Latitude da academia. |
+| `longitude` | `Body - Number` | **Obrigatório**. Longitude da academia. |
+
+#### Busca pelo histórico de check-ins de um usuário
+
+```http
+  GET /check-ins/history
+```
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `accessToken` | `Cookie - String` | **Obrigatório**. Access token do usuário. |
+| `page` | `Query - Number` | Número da página atual. |
+
+#### Busca as métricas do usuário
+
+```http
+  GET /check-ins/metrics
+```
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `accessToken` | `Cookie - String` | **Obrigatório**. Access token do usuário. |
+
+#### Cria um novo check-in
+
+```http
+  POST /gyms/:gymId/check-ins
+```
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `accessToken` | `Cookie - String` | **Obrigatório**. Access token do usuário. |
+| `gymId` | `Query Param - String` | **Obrigatório**. Id da academia. |
+| `latitude` | `Body - Number` | **Obrigatório**. Latitude do usuário. |
+| `longitude` | `Body - Number` | **Obrigatório**. Longitude do usuário. |
+
+#### Valida um check-in - Apenas por usuário com Admin
+
+```http
+  PATCH /check-ins/:checkInId/validate
+```
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `accessToken` | `Cookie - String` | **Obrigatório**. Access token do usuário. |
+| `checkInId` | `Query Param - String` | **Obrigatório**. Id do check-in. |
 
 ## Stack utilizada
 
-**Back-end:** Node, Fastify, Knex, Vitest, zod, sqlite3
+**Back-end:** Node, Fastify, Knex, Vitest, zod, sqlite3, Prisma, bycript, supertest
 
 
 ## Rodando localmente

@@ -58,21 +58,24 @@ model Pet {
   space                Space
   idependencyLevel     IdependencyLevel
   type                 Type
-  org                  String
   adoptionRequirements String[]
+  orgId                String
+
+  org Org @relation(fields: [orgId], references: [id])
 
   @@map("pets")
 }
 
 model Org {
   id            String  @id @default(uuid())
-  name          String
-  ownerName     String?
-  email         String  @unique
+  name          String?
+  ownerName     String
+  email         String? @unique
   cep           String
   address       String
   phone         String
   password_hash String
+  Pet           Pet[]
 
   @@map("orgs")
 }

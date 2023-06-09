@@ -14,7 +14,7 @@ describe('Register Use Case', () => {
   })
 
   it('should be able to register', async () => {
-    const { user } = await registerUseCase.execute({
+    const { org } = await registerUseCase.execute({
       name: 'Fake ORG name',
       ownerName: 'John Doe',
       email: 'john.doe@mail.com',
@@ -25,11 +25,11 @@ describe('Register Use Case', () => {
       password: '123456',
     })
 
-    expect(user.id).toEqual(expect.any(String))
+    expect(org.id).toEqual(expect.any(String))
   })
 
   it('should hash user password upon registration', async () => {
-    const { user } = await registerUseCase.execute({
+    const { org } = await registerUseCase.execute({
       name: 'Fake ORG name',
       ownerName: 'John Doe',
       email: 'john.doe@mail.com',
@@ -40,16 +40,13 @@ describe('Register Use Case', () => {
       password: '123456',
     })
 
-    const isPasswordCorrectlyHashed = await compare(
-      '123456',
-      user.password_hash,
-    )
+    const isPasswordCorrectlyHashed = await compare('123456', org.password_hash)
 
     expect(isPasswordCorrectlyHashed).toBe(true)
   })
 
   it('not should be able to register with same email twice', async () => {
-    registerUseCase.execute({
+    await registerUseCase.execute({
       name: 'Fake ORG name',
       ownerName: 'John Doe',
       email: 'john.doe@mail.com',
@@ -60,7 +57,7 @@ describe('Register Use Case', () => {
       password: '123456',
     })
 
-    expect(() =>
+    await expect(() =>
       registerUseCase.execute({
         name: 'Fake ORG name',
         ownerName: 'John Doe',

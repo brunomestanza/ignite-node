@@ -14,7 +14,7 @@ interface RegisterUseCaseRequest {
 }
 
 interface RegisterUseCaseResponse {
-  user: Org
+  org: Org
 }
 
 export class RegisterUseCase {
@@ -37,7 +37,7 @@ export class RegisterUseCase {
 
     const password_hash = await hash(password, 6)
 
-    const user = await this.orgsRepository.create({
+    const org = await this.orgsRepository.create({
       name: name ?? null,
       ownerName,
       email,
@@ -47,6 +47,6 @@ export class RegisterUseCase {
       password_hash,
     })
 
-    return { user }
+    return { org }
   }
 }

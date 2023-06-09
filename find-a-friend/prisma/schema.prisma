@@ -56,10 +56,10 @@ model Pet {
   size                 Size
   energy_level         EnergyLevel
   space                Space
-  idependencyLevel     IdependencyLevel
+  independency_level   IdependencyLevel
   type                 Type
-  org                  String
-  adoptionRequirements String[]
+  orgId                String
+  adoptionRequirements String
 
   @@map("pets")
 }

@@ -4,17 +4,17 @@ import { hash } from 'bcryptjs'
 import { InvalidCredentialsError } from './errors/invalid-credentials-error'
 import { InMemoryOrgsRepository } from '@/repositories/in-memory/in-memory-orgs-repository'
 
-let usersRepository: InMemoryOrgsRepository
+let orgsRepository: InMemoryOrgsRepository
 let authenticateUseCase: AuthenticateUseCase
 
 describe('Authenticate Use Case', () => {
   beforeEach(() => {
-    usersRepository = new InMemoryOrgsRepository()
-    authenticateUseCase = new AuthenticateUseCase(usersRepository)
+    orgsRepository = new InMemoryOrgsRepository()
+    authenticateUseCase = new AuthenticateUseCase(orgsRepository)
   })
 
   it('should be able to authenticate', async () => {
-    await usersRepository.create({
+    await orgsRepository.create({
       id: 'fake-id-01',
       name: 'Fake ORG name',
       ownerName: 'John Doe',
@@ -44,7 +44,7 @@ describe('Authenticate Use Case', () => {
   })
 
   it('should not be able to authenticate with wrong password', async () => {
-    await usersRepository.create({
+    await orgsRepository.create({
       id: 'fake-id-01',
       name: 'Fake ORG name',
       ownerName: 'John Doe',

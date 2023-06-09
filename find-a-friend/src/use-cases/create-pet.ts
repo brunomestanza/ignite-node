@@ -21,7 +21,7 @@ interface CreatePetUseCaseRequest {
   independency_level: IdependencyLevel
   type: Type
   orgId: string
-  adoptionRequirements: string
+  adoptionRequirements: string[]
 }
 
 interface CreatePetUseCaseResponse {

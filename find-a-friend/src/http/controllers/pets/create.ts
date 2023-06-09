@@ -20,7 +20,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     independencyLevel: z.enum(['Medio', 'Alto', 'Baixo']),
     type: z.enum(['Cachorro', 'Gato', 'Peixe']),
     orgId: z.string(),
-    adoptionRequirements: z.string(),
+    adoptionRequirements: z.array(z.string()),
   })
 
   const {

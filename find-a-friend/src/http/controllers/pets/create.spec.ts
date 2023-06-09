@@ -28,7 +28,7 @@ describe('Create pet (e2e)', () => {
         independencyLevel: 'Alto',
         type: 'Cachorro',
         orgId: 'fake-id',
-        adoptionRequirements: '["Não pode apartamento"]',
+        adoptionRequirements: ['Não pode apartamento'],
       })
 
     expect(response.statusCode).toEqual(201)

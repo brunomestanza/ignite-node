@@ -59,7 +59,7 @@ model Pet {
   independency_level   IdependencyLevel
   type                 Type
   orgId                String
-  adoptionRequirements String
+  adoptionRequirements String[]
 
   @@map("pets")
 }

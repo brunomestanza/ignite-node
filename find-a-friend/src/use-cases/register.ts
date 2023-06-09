@@ -4,7 +4,7 @@ import { Org } from '@prisma/client'
 import { OrgsRepository } from '@/repositories/orgs-repository'
 
 interface RegisterUseCaseRequest {
-  name?: string
+  name: string | null
   ownerName: string
   email: string
   cep: string

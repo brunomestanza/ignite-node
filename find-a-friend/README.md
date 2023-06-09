@@ -1,5 +1,3 @@
-ESCREVER TODOS OS REPOSITORIES E USE CASES PRIMEIRO
-
 # Projeto para aprendizado de NestJS
 
 Uma api que utiliza de geolocalização, verificações com data para checkins em academias.

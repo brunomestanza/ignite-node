@@ -49,8 +49,6 @@ describe('Register Use Case', () => {
   })
 
   it('not should be able to register with same email twice', async () => {
-    const email = 'johndoe@example.com'
-
     registerUseCase.execute({
       name: 'Fake ORG name',
       ownerName: 'John Doe',

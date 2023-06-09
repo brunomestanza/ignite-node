@@ -1,4 +1,4 @@
-import { PrismaUsersRepository } from '@/repositories/prisma/prisma-users-repository'
+import { orge } from '@/repositories/prisma/prisma-users-repository'
 import { AuthenticateUseCase } from '../authenticate'
 
 export function makeAuthenticateUseCase() {

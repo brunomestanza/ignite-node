@@ -58,8 +58,10 @@ model Pet {
   space                Space
   independency_level   IdependencyLevel
   type                 Type
-  orgId                String
   adoptionRequirements String[]
+
+  orgId String
+  Org   Org    @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
   @@map("pets")
 }
@@ -73,6 +75,8 @@ model Org {
   address       String
   phone         String
   password_hash String
+
+  Pet Pet[]
 
   @@map("orgs")
 }

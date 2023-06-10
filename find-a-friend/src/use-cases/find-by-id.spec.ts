@@ -1,23 +1,23 @@
 import { expect, describe, it, beforeEach } from 'vitest'
 import { hash } from 'bcryptjs'
 import { InMemoryPetsRepository } from '@/repositories/in-memory/in-memory-pets.repository'
-import { CreatePetUseCase } from './create-pet'
 import { InMemoryOrgsRepository } from '@/repositories/in-memory/in-memory-orgs-repository'
+import { FindByIdUseCase } from './find-by-id'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 let petsRepository: InMemoryPetsRepository
 let orgsRepository: InMemoryOrgsRepository
-let sut: CreatePetUseCase
+let sut: FindByIdUseCase
 
-describe('Create Pet Use Case', () => {
+describe('Find By Id Use Case', () => {
   beforeEach(() => {
     petsRepository = new InMemoryPetsRepository()
     orgsRepository = new InMemoryOrgsRepository()
-    sut = new CreatePetUseCase(petsRepository, orgsRepository)
+    sut = new FindByIdUseCase(petsRepository)
   })
 
-  it('should be able to create a pet', async () => {
-    await orgsRepository.create({
+  it('should be able to find a pet with a id', async () => {
+    const org = await orgsRepository.create({
       id: 'fake-org-1',
       name: 'Fake ORG name',
       ownerName: 'John Doe',
@@ -29,35 +29,32 @@ describe('Create Pet Use Case', () => {
       password_hash: await hash('123456', 6),
     })
 
-    const { pet } = await sut.execute({
-      name: 'Fofura',
-      about: 'Fofura é um cachorro carinhoso e dócil',
+    await petsRepository.create({
+      id: 'fake-pet-1',
+      name: 'Fake ORG name',
+      about: 'Um cachorro fake',
       age: 'Filhote',
-      size: 'Pequenino',
       energy_level: 'Alta',
-      space: 'Medio',
       independency_level: 'Alto',
-      type: 'Cachorro',
       orgId: 'fake-org-1',
+      size: 'Grande',
+      space: 'Amplo',
+      type: 'Cachorro',
       adoptionRequirements: ['Não pode apartamento'],
+      Org: org,
     })
 
-    expect(pet.id).toEqual(expect.any(String))
+    const { pet } = await sut.execute({
+      id: 'fake-pet-1',
+    })
+
+    expect(pet!.id).toEqual(expect.any(String))
   })
 
-  it('should not create pet with invalid org', async () => {
+  it('should not be able to to find a pet without a id', async () => {
     await expect(() =>
       sut.execute({
-        name: 'Fofura',
-        about: 'Fofura é um cachorro carinhoso e dócil',
-        age: 'Filhote',
-        size: 'Pequenino',
-        energy_level: 'Alta',
-        space: 'Medio',
-        independency_level: 'Alto',
-        type: 'Cachorro',
-        orgId: 'fake-org-1',
-        adoptionRequirements: ['Não pode apartamento'],
+        id: 'fake-id',
       }),
     ).rejects.toBeInstanceOf(ResourceNotFoundError)
   })

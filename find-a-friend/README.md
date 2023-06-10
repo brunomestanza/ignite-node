@@ -10,7 +10,7 @@ Uma api que utiliza de geolocalização, verificações com data para checkins e
 
 [X] Deve ser possível filtrar pets por suas características
 
-[ ] Deve ser possível visualizar detalhes de um pet para adoção
+[X] Deve ser possível visualizar detalhes de um pet para adoção
 
 [x] Deve ser possível se cadastrar como uma ORG
 

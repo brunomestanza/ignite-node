@@ -5,42 +5,30 @@ Uma api que utiliza de geolocalização, verificações com data para checkins e
 ## Regras da aplicação
 
 [X] Deve ser possível cadastrar um pet
+
 [X] Deve ser possível listar todos os pets disponíveis para adoção em uma cidade
+
 [X] Deve ser possível filtrar pets por suas características
+
 [ ] Deve ser possível visualizar detalhes de um pet para adoção
+
 [x] Deve ser possível se cadastrar como uma ORG
+
 [x] Deve ser possível realizar login como uma ORG
 
 ## Regras de negócio
 
 [X] Para listar os pets, obrigatoriamente precisamos informar a cidade
+
 [x] Uma ORG precisa ter um endereço e um número de WhatsApp
+
 [X] Um pet deve estar ligado a uma ORG
+
 [x] O usuário que quer adotar, entrará em contato com a ORG via WhatsApp
+
 [X] Todos os filtros, além da cidade, são opcionais
+
 [X] Para uma ORG acessar a aplicação como admin, ela precisa estar logada
-
-### Informações sobre o pet
-O pet possui
-- Nome
-- Sobre
-- Idade (Filhote, Jovem, Adulto)
-- Porte do animal (Pequenino, Médio ou Grande)
-- Nível de energia (Muito baixa, Baixa, Média, Alta, Muito alta)
-- Ambiente (Amplo, Médio, Pequeno)
-- Nível de indepêndencia (Baixo (precisa de companhia sempre), Médio (precisa de companhia moderada), Alto (precisa de companhia constante))
-- Tipo (Cachorro, Gato e Peixe)
-- ORG
-- Requisitos para adoção
-
-### Informações sobre uma ORG
-A ORG possui
-- Nome do responsável
-- Email
-- CEP
-- Endereço
-- Whatsapp
-- Senha
 
 ## Stack utilizada
 

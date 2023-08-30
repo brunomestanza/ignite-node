@@ -2,13 +2,19 @@ import { InMemoryAnswersRepository } from 'tests/repositories/in-memory-answers-
 import { FindManyQuestionAnswersUseCase } from '../find-many-question-answers'
 import { makeAnswer } from 'tests/factories/make-answer'
 import { UniqueEntityID } from '@/core/value-objects/unique-entity-id'
+import { InMemoryAnswerAttachmentsRepository } from 'tests/repositories/in-memory-answer-attachments-repository'
 
+let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let sut: FindManyQuestionAnswersUseCase
 
 describe('Find Many Question Answers Use Case', () => {
   beforeEach(() => {
-    inMemoryAnswersRepository = new InMemoryAnswersRepository()
+    inMemoryAnswerAttachmentsRepository =
+      new InMemoryAnswerAttachmentsRepository()
+    inMemoryAnswersRepository = new InMemoryAnswersRepository(
+      inMemoryAnswerAttachmentsRepository,
+    )
     sut = new FindManyQuestionAnswersUseCase(inMemoryAnswersRepository)
   })
 
@@ -23,12 +29,12 @@ describe('Find Many Question Answers Use Case', () => {
       makeAnswer({ questionId: new UniqueEntityID('question-1') }),
     )
 
-    const { answers } = await sut.execute({
+    const result = await sut.execute({
       questionId: 'question-1',
       page: 1,
     })
 
-    expect(answers).toHaveLength(3)
+    expect(result.value?.answers).toHaveLength(3)
   })
 
   it('should be able to find paginated question answers', async () => {
@@ -38,11 +44,11 @@ describe('Find Many Question Answers Use Case', () => {
       )
     }
 
-    const { answers } = await sut.execute({
+    const result = await sut.execute({
       questionId: 'question-1',
       page: 2,
     })
 
-    expect(answers).toHaveLength(2)
+    expect(result.value?.answers).toHaveLength(2)
   })
 })

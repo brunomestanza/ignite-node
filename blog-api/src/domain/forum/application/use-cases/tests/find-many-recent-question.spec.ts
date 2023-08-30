@@ -1,13 +1,19 @@
 import { InMemoryQuestionsRepository } from 'tests/repositories/in-memory-questions-repository'
 import { makeQuestion } from 'tests/factories/make-question'
 import { FindManyRecentQuestionsUseCase } from '../find-many-recent-question'
+import { InMemoryQuestionAttachmentsRepository } from 'tests/repositories/in-memory-question-attachments-repository'
 
+let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let inMemoryQuestionRepository: InMemoryQuestionsRepository
 let sut: FindManyRecentQuestionsUseCase
 
 describe('Find Many Recent Questions Use Case', () => {
   beforeEach(() => {
-    inMemoryQuestionRepository = new InMemoryQuestionsRepository()
+    inMemoryQuestionAttachmentsRepository =
+      new InMemoryQuestionAttachmentsRepository()
+    inMemoryQuestionRepository = new InMemoryQuestionsRepository(
+      inMemoryQuestionAttachmentsRepository,
+    )
     sut = new FindManyRecentQuestionsUseCase(inMemoryQuestionRepository)
   })
 
@@ -24,11 +30,11 @@ describe('Find Many Recent Questions Use Case', () => {
       makeQuestion({ createdAt: new Date(2022, 0, 23) }),
     )
 
-    const { questions } = await sut.execute({
+    const result = await sut.execute({
       page: 1,
     })
 
-    expect(questions).toEqual([
+    expect(result.value?.questions).toEqual([
       expect.objectContaining({ createdAt: new Date(2022, 0, 23) }),
       expect.objectContaining({ createdAt: new Date(2022, 0, 20) }),
       expect.objectContaining({ createdAt: new Date(2022, 0, 18) }),
@@ -40,10 +46,10 @@ describe('Find Many Recent Questions Use Case', () => {
       await inMemoryQuestionRepository.create(makeQuestion())
     }
 
-    const { questions } = await sut.execute({
+    const result = await sut.execute({
       page: 2,
     })
 
-    expect(questions).toHaveLength(2)
+    expect(result.value?.questions).toHaveLength(2)
   })
 })

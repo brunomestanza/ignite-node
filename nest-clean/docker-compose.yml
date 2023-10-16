@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: nest-clean-pg
+    # Use postgres image only for development, because its light, but use bitnami/postgres in production, for security
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: nest-clean
+      # PGDATA and volumes are used for saving data, its useful if the container is excluded, and composed again
+      PGDATA: /data/postgres
+    volumes:
+      - ./data/pg:/data/postgres

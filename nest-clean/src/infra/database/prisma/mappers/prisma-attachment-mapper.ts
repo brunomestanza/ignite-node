@@ -3,18 +3,15 @@ import { Attachment } from '@/domain/forum/enterprise/entities/attachment'
 import { Attachment as PrismaAttachment, Prisma } from '@prisma/client'
 
 export class PrismaAttachmentMapper {
-  // static toDomain(raw: PrismaAttachment): Attachment {
-  //   return Attachment.create(
-  //     {
-  //       content: raw.content,
-  //       authorId: new UniqueEntityID(raw.authorId),
-  //       questionId: new UniqueEntityID(raw.questionId),
-  //       createdAt: raw.createdAt,
-  //       updatedAt: raw.updatedAt,
-  //     },
-  //     new UniqueEntityID(raw.id),
-  //   )
-  // }
+  static toDomain(raw: PrismaAttachment): Attachment {
+    return Attachment.create(
+      {
+        title: raw.title,
+        url: raw.url,
+      },
+      new UniqueEntityID(raw.id),
+    )
+  }
 
   static toPrisma(raw: Attachment): Prisma.AttachmentUncheckedCreateInput {
     return {

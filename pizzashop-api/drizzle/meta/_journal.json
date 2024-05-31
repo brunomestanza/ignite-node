@@ -1,0 +1,48 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1708006639694,
+      "tag": "0000_stiff_sasquatch",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1708006729590,
+      "tag": "0001_modern_tigra",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1708007920588,
+      "tag": "0002_workable_jean_grey",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1709823119011,
+      "tag": "0003_massive_tigra",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1711119047429,
+      "tag": "0004_huge_doomsday",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1711140131261,
+      "tag": "0005_cold_infant_terrible",
+      "breakpoints": true
+    }
+  ]
+}

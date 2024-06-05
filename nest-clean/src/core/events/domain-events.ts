@@ -7,6 +7,8 @@ type DomainEventCallback = (event: unknown) => void
 export class DomainEvents {
   private static handlersMap: Record<string, DomainEventCallback[]> = {}
   private static markedAggregates: AggregateRoot<unknown>[] = []
+
+  // In tests, there are use cases when we dont want the domain events to run
   public static shouldRun = true
 
   public static markAggregateForDispatch(aggregate: AggregateRoot<unknown>) {

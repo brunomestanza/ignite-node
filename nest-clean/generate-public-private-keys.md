@@ -1,13 +1,14 @@
-Generate a private_key
+1. Generate a private_key
 
 openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048
 
-Generate a public_key
+2. Generate a public_key
 
 openssl rsa -pubout -in private_key.pem -out public_key.pem
 
-Convert into base64
+3. Convert both into base64
 
 base64 -i private_key.pem -o private_key_base.txt
+base64 -i public_key.pem -o public_key_base.txt
 
-Copy the private_key_base file content into the variable, and do the same with the public key
+4. Copy both file contents into the variables
